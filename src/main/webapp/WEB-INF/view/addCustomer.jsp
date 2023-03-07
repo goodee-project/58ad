@@ -32,7 +32,7 @@
 				<tr>
 					<td>연락처</td>
 					<td>
-						<select>
+						<select name="customerPhone1">
 							<option value="010">010</option>
 							<option value="011">011</option>
 							<option value="012">012</option>

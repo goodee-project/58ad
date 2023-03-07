@@ -4,6 +4,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -34,6 +36,18 @@ public class CustomerController {
 	@GetMapping("/customer/addCustomer")
 	public String addCustomer() {
 		return "addCustomer";
+	}
+	
+	@PostMapping("/customer/addCustomer")
+	public String addCustomer(@RequestParam(value="customerId") String customerId
+							, @RequestParam(value="customerPw") String customerPw
+							, @RequestParam(value="customerName") String customerName
+							, @RequestParam(value="customerPhone1") String customerPhone1
+							, @RequestParam(value="customerPhone2") String customerPhone2
+							, @RequestParam(value="customerPhone3") String customerPhone3
+							, @RequestParam(value="customerEmail1") String customerEmail1
+							, @RequestParam(value="customerEmail2") String customerEmail2) {
+		return "";
 	}
 	
 	
