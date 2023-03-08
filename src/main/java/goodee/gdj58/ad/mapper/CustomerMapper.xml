@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goodee.gdj58.ad.mapper.CustomerMapper">
+	
+	<insert id="insertTotalId"
+			parameterType="java.util.Map">
+	
+		INSERT INTO total_id(
+			id
+			, total_id_kind
+			, total_id_active
+			, createdate
+		) VALUES (
+			#{customerId}
+			, '광고'
+			, '활성화'
+			, CURDATE()
+		)
+	</insert>
+	
+	<insert id="insertAdCustomer"
+			parameterType="java.util.Map">
+		
+		INSERT INTO ad_customer(
+			ad_customer_id
+			, ad_customer_pw
+			, ad_customer_name
+		) VALUES (
+			#{customerId}
+			, PASSWORD(#{customerPw})
+			, #{customerName}
+		)
+	</insert>
+	
+	<insert id="insertAdCustomerInfo"
+			parameterType="java.util.Map">
+	
+		INSERT INTO ad_customer_info(
+			ad_customer_id
+			, ad_customer_phone
+			, ad_customer_email
+			, createdate
+		) VALUES (
+			#{customerId}
+			, #{customerPhone}
+			, #{customerEmail}
+			, (SELECT createdate FROM total_id WHERE id=#{customerId} AND total_id_kind = '광고')
+		)
+		
+	</insert>
+	
+	<select id="selectTotalIdCk"
+			parameterType="String"
+			resultType="String">
+		
+		SELECT 
+			id 
+		FROM total_id 
+		WHERE id = #{customerId}
+	</select>
+	
+	<select id="selectLoginCustomer"
+			parameterType="goodee.gdj58.ad.vo.AdCustomer"
+			resultType="goodee.gdj58.ad.vo.AdCustomer">
+	
+		SELECT
+			ad_customer_id adCustomerId
+			, ad_customer_name adCustomerName
+		FROM
+			ad_customer
+		WHERE
+			ad_customer_id = #{adCustomerId} AND ad_customer_pw = PASSWORD(#{adCustomerPw})
+	</select>
+
+</mapper>

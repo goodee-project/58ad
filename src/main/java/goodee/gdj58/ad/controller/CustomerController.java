@@ -2,18 +2,29 @@ package goodee.gdj58.ad.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import goodee.gdj58.ad.service.CustomerService;
+import goodee.gdj58.ad.vo.AdCustomer;
+
 
 @Controller
 public class CustomerController {
+	@Autowired CustomerService customerService;
 
 	// 메인페이지 호출
 	@GetMapping("/main")
-	public String getIndex() {
+	public String getIndex(Model model, HttpSession session) {
+		System.out.println(session.getAttribute("adCustomer")+"<-- session");
+		
+		if(session.getAttribute("adCustomer") != null) {
+			model.addAttribute("adCustomer", session.getAttribute("adCustomer"));
+		}
 		return "main";
 	}
 	
@@ -21,6 +32,24 @@ public class CustomerController {
 	@GetMapping("/customer/login")
 	public String login() {
 		return "login";
+	}
+	
+	@PostMapping("/customer/login")
+	public String login(HttpSession session
+					, @RequestParam(value = "customerId") String customerId
+					, @RequestParam(value="customerPw") String customerPw) {
+		
+		AdCustomer loginCustomer = customerService.getLoginCustomer(customerId, customerPw);
+		
+		if(loginCustomer == null) {
+			System.out.println("로긴커스터머 널");
+		} else {
+			System.out.println("로긴커스터머 널아님");
+		}
+		
+		session.setAttribute("adCustomer", loginCustomer);
+		
+		return "redirect:/main";
 	}
 	
 	//로그아웃 폼
@@ -38,6 +67,7 @@ public class CustomerController {
 		return "addCustomer";
 	}
 	
+	//회원가입 
 	@PostMapping("/customer/addCustomer")
 	public String addCustomer(@RequestParam(value="customerId") String customerId
 							, @RequestParam(value="customerPw") String customerPw
@@ -47,7 +77,11 @@ public class CustomerController {
 							, @RequestParam(value="customerPhone3") String customerPhone3
 							, @RequestParam(value="customerEmail1") String customerEmail1
 							, @RequestParam(value="customerEmail2") String customerEmail2) {
-		return "";
+		
+		customerService.getAddAdCustomer(customerId, customerPw, customerName, customerPhone1, customerPhone2, customerPhone3, customerEmail1, customerEmail2);
+		System.out.println("서비스 실행");
+		
+		return "redirect:/customer/login";
 	}
 	
 	
