@@ -61,6 +61,15 @@ public class CustomerController {
 		return "redirect:/customer/login";
 	}
 	
+	//로그아웃 폼
+	@GetMapping("/customer/logoutPage")
+	public String logoutPage(HttpSession session) {
+		
+		session.invalidate();
+		
+		return "redirect:http://3.38.82.69/58platform/integrationPage";
+	}
+	
 	//회원가입 폼
 	@GetMapping("/customer/addCustomer")
 	public String addCustomer() {

@@ -16,6 +16,7 @@
 		<c:if test="${adCustomer != null}">
 			<span>${adCustomer.adCustomerName}님 로그인했습니다.</span>
 			<a href="${pageContext.request.contextPath}/customer/logout">로그아웃</a>
+			<a href="${pageContext.request.contextPath}/customer/logoutPage">통합 페이지 로그아웃</a>
 		</c:if>
 	</body>
 </html>
