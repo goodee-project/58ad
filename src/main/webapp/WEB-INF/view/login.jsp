@@ -26,6 +26,8 @@
 			</table>
 			<button type="submit" id="submitBtn">로그인</button>
 		</form>
+		
+		<a href="${pageContext.request.contextPath}/customer/logoutPage">통합페이지로 이동</a>
 	</body>
 	
 </html>
